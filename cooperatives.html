@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d7c3d">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => {
+          console.log("Service Worker registered");
+          reg.onupdatefound = () => {
+            const newWorker = reg.installing;
+            newWorker.onstatechange = () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log("New version found, reloading...");
+                window.location.reload();
+              }
+            };
+          };
+        })
+        .catch(err => console.error("Service Worker failed", err));
+    }
+  </script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cooperatives – Kilimo House Bomet</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .summary-section {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="assets/images/logo.png" alt="Kilimo House Logo" class="logo" />
+    <h1>Kilimo House Bomet</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="programs.html">Programs</a></li>
+        <li><a href="cooperatives.html" class="active">Cooperatives</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Registered Cooperatives</h2>
+      <p>Kilimo House Bomet works closely with farmers' cooperatives and SACCOs to promote sustainable development and economic empowerment in the agricultural sector.</p>
+    </section>
+
+    <section class="cooperatives-list">
+      <article><h3>1. Bomet Dairy Cooperative</h3><p>Milk collection and marketing for 2,000+ dairy farmers across Bomet County.</p></article>
+      <article><h3>2. Kapset Tea SACCO</h3><p>Provides credit services, farming support, and tea marketing assistance to smallholder growers.</p></article>
+      <article><h3>3. Chepalungu Farmers Union</h3><p>Supports farmers producing maize, beans, and horticultural crops while promoting agribusiness practices.</p></article>
+      <article><h3>4. Women in Agribusiness Group</h3><p>Empowers women in poultry farming, kitchen gardening, and agri-financing through training and seed funding.</p></article>
+      <article><h3>5. Sot Tea Cooperative</h3><p>Assists tea farmers with extension services, collection logistics, and fair pricing strategies.</p></article>
+      <article><h3>6. Longisa Potato Growers</h3><p>Provides potato farmers with training in seed selection, storage, and market linkage opportunities.</p></article>
+      <article><h3>7. Kipsonoi SACCO</h3><p>Offers savings and credit products to dairy farmers and supports livestock productivity programs.</p></article>
+      <article><h3>8. Youth Agritech Network</h3><p>Trains youth on agribusiness, greenhouse farming, and digital agriculture for job creation.</p></article>
+      <article><h3>9. Silibwet Multipurpose Cooperative</h3><p>Handles cereals, dairy, and agro-input supplies while promoting cooperative values.</p></article>
+      <article><h3>10. Tenwek Coffee Growers Union</h3><p>Provides coffee farmers with planting support, training, and access to export markets.</p></article>
+    </section>
+
+    <!-- ✅ Summary Table Section -->
+    <section class="summary-section">
+      <h2>Cooperative Summary Table</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Organization Name</th>
+            <th>Focus Area</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Bomet Dairy Farmers’ Cooperative Society</td><td>Dairy milk aggregation & chilling</td></tr>
+          <tr><td>Chepalungu Dairy Cooperative Society</td><td>Milk cooling</td></tr>
+          <tr><td>Siongiroi & Longisa Dairy Cooperatives</td><td>Dairy</td></tr>
+          <tr><td>Kapsimotwo Farmers’ Cooperative Society</td><td>Dairy</td></tr>
+          <tr><td>Berur Horticultural Farmers Cooperative Society</td><td>Avocado/horticulture</td></tr>
+          <tr><td>Masare Farmers’ Cooperative</td><td>Coffee production/pulping</td></tr>
+          <tr><td>Kenya Midland Sacco Society Ltd</td><td>General deposit‑taking SACCO</td></tr>
+          <tr><td>Chepsol Tea Growers Sacco Ltd</td><td>Tea growers</td></tr>
+          <tr><td>Konoin Tea Growers Sacco Society</td><td>Tea growers</td></tr>
+          <tr><td>Mwongoori Farmers Cooperative Society</td><td>General crops</td></tr>
+          <tr><td>Bomet Dairy Services Coop</td><td>Dairy services</td></tr>
+          <tr><td>Sotico & Sot Tea Growers SACCOs</td><td>Tea</td></tr>
+          <tr><td>Gelegele Farmers Cooperative</td><td>General crops</td></tr>
+          <tr><td>Zinduka & Apex Sacco Society Ltds</td><td>Deposit‑taking SACCOs (2025)</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Kilimo House Bomet. All rights reserved.</p>
+  </footer>
+  <script src="assets/js/script.js?v=5"></script>
+</body>
+</html>

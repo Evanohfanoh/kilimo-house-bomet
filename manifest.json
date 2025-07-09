@@ -1,0 +1,35 @@
+{
+  "start_url": "index.html",
+  "id": "/index.html",
+  "name": "Kilimo House Bomet",
+  "short_name": "KilimoHouse",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2d7c3d",
+  "icons": [
+    {
+      "src": "assets/images/logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "assets/images/dashboard-wide.png",
+      "sizes": "800x600",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/dashboard-wide.png",
+      "sizes": "800x600",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "description": "Kilimo House Bomet is a platform to connect farmers, cooperatives, and agricultural programs in Bomet County, Kenya."
+}

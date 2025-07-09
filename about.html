@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d7c3d">
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => {
+        console.log("Service Worker registered");
+
+        // Listen for updates
+        reg.onupdatefound = () => {
+          const newWorker = reg.installing;
+          newWorker.onstatechange = () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available - reload page
+              console.log("New version found, reloading...");
+              window.location.reload();
+            }
+          };
+        };
+      })
+      .catch(err => console.error("Service Worker failed", err));
+  }
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Kilimo House Bomet</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <img src="assets/images/logo.png" alt="Kilimo House Logo" class="logo" />
+    <h1>Kilimo House Bomet</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="programs.html">Programs</a></li>
+        <li><a href="cooperatives.html">Cooperatives</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>About Kilimo House Bomet</h2>
+      <p>
+        Kilimo House Bomet is the official platform dedicated to promoting agriculture and cooperatives in Bomet County.
+        We provide services, resources, and support to farmers, SACCOs, and agricultural stakeholders across the county.
+      </p>
+      <p>
+        Our mission is to improve food security, drive sustainable agribusiness, and enhance cooperative performance through digital access and government programs.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Kilimo House Bomet. All rights reserved.</p>
+  </footer>
+  <script src="assets/js/script.js?v=5"></script>
+
+</body>
+</html>

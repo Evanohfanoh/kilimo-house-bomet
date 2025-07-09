@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Welcome – Kilimo House Bomet</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#2d7c3d" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Service Worker -->
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => {
+        console.log("Service Worker registered");
+
+        // Listen for updates
+        reg.onupdatefound = () => {
+          const newWorker = reg.installing;
+          newWorker.onstatechange = () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available - reload page
+              console.log("New version found, reloading...");
+              window.location.reload();
+            }
+          };
+        };
+      })
+      .catch(err => console.error("Service Worker failed", err));
+  }
+</script>
+
+
+  <style>
+    .welcome-container {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .welcome-container img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .welcome-container h1 {
+      color: #2d7c3d;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .welcome-container p {
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    .welcome-buttons a {
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      background-color: #007bff;
+      color: white;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      display: inline-block;
+    }
+
+    .welcome-buttons a:hover {
+      background-color: #0056b3;
+    }
+
+    .welcome-buttons i {
+      margin-right: 8px;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-container">
+    <img src="assets/images/logo.png" alt="Kilimo House Logo" />
+    <h1>Welcome to Kilimo House Bomet App</h1>
+    <p>Connecting Farmers, Cooperatives, and Agricultural Programs</p>
+    <div class="welcome-buttons">
+      <a href="login.html">
+        <i class="fas fa-sign-in-alt"></i> Login
+      </a>
+      <a href="register.html">
+        <i class="fas fa-user-plus"></i> Register
+      </a>
+    </div>
+  </div>
+  <script src="assets/js/script.js?v=5"></script>
+
+</body>
+</html>

@@ -1,0 +1,264 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Header Styling */
+header {
+  background-color: #2e7d32; /* deep green */
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header h1 {
+  margin-bottom: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* Hero Section */
+.hero {
+  background-color: #c8e6c9; /* light green */
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.hero h2 {
+  margin-bottom: 10px;
+  color: #1b5e20;
+}
+
+/* Intro Section */
+.intro {
+  padding: 30px 20px;
+  background-color: #fff;
+  text-align: center;
+}
+
+/* Footer Styling */
+footer {
+  background-color: #2e7d32;
+  color: white;
+  text-align: center;
+  padding: 15px 0;
+  margin-top: 40px;
+}
+.featured-image {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.featured-image img {
+  max-width: 90%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.logo {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 0 auto 10px;
+}
+.cooperatives-list {
+  padding: 20px;
+  background-color: #f0f8f0;
+}
+
+.cooperatives-list article {
+  background: #fff;
+  margin-bottom: 20px;
+  padding: 15px;
+  border-left: 5px solid #2e8b57;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+}
+/* Contact Page Styling */
+.contact-info {
+  background: #e6f2ff;
+  padding: 20px;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+.contact-info ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.contact-info li {
+  margin-bottom: 10px;
+  font-size: 1.1em;
+}
+
+.contact-form label {
+  font-weight: bold;
+  display: block;
+  margin-top: 15px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.contact-form button {
+  margin-top: 15px;
+  padding: 10px 20px;
+  background-color: #2e8b57;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #256e44;
+}
+.dashboard-img {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.slideshow-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 30px auto;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+}
+
+.slideshow {
+  display: flex;
+  animation: slide 80s infinite linear;
+  width: calc(100% * 3); /* 3 images */
+}
+
+.slideshow img {
+  width: 100%;
+  flex-shrink: 0;
+  height: auto;
+}
+
+@keyframes slide {
+  0% { transform: translateX(0); }
+  33% { transform: translateX(-100%); }
+  66% { transform: translateX(-200%); }
+  100% { transform: translateX(0); }
+}
+#farmers-list {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f2f8f3;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+#farmers-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+#farmers-list th,
+#farmers-list td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+#farmers-list th {
+  background-color: #2d7c3d;
+  color: white;
+}
+#farmers-list h3 {
+  text-align: center;
+  font-size: 24px;
+  color: #4a148c; /* Deep purple */
+  margin-bottom: 20px;
+}
+.program-registration {
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.program-registration h2 {
+  color: #2e7d32;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.program-registration form label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.program-registration form input,
+.program-registration form select,
+.program-registration form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.program-registration form button {
+  background-color: #2e7d32;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  margin-top: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.program-registration form button:hover {
+  background-color: #25692a;
+}
+
+
+
+

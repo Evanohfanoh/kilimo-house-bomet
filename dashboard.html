@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard | Kilimo House</title>
+  <meta name="theme-color" content="#2d7c3d" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="assets/css/style.css?v=6" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+    }
+    header {
+      background: #2e7d32;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      position: relative;
+    }
+    nav {
+      background: #0ac7e8;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #333;
+      font-weight: bold;
+    }
+    .container {
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 5px;
+    }
+    .logout-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      background-color: #2f4492d8;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+    .slideshow img,
+    .dashboard-img {
+      width: 100%;
+      max-width: 600px;
+      display: block;
+      margin: 15px auto;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #2e7d32;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h2>Welcome, Farmer! Lima na Cooperative</h2>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+  </header>
+
+  <nav>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="cooperatives.html">Cooperatives</a>
+    <a href="programs.html">Programs</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div class="card">
+      <h3>Welcome!</h3>
+      <p>You have successfully logged in. Stay updated with programs and cooperative opportunities offered through Kilimo House Bomet.Cooperatives</p>
+    </div>
+
+    <div class="card">
+      <h3>Latest Updates</h3>
+      <ul>
+        <li> Dairy farmers SACCO meeting on Friday</li>
+        <li> Maize marketing program opens next week</li>
+        <li> New cooperative registration feature coming soon</li>
+      </ul>
+    </div>
+    <div class="card">
+  <h3 style="margin-bottom: 15px; color: #2e7d32;">Cooperative Summary Table</h3>
+  <div style="overflow-x: auto;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+      <thead style="background-color: #e0f2f1;">
+        <tr>
+          <th style="padding: 12px; border: 1px solid #ccc;">Organization Name</th>
+          <th style="padding: 12px; border: 1px solid #ccc;">Focus Area</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td style="padding: 10px; border: 1px solid #ccc;">Bomet Dairy Farmers’ Cooperative Society</td><td style="padding: 10px; border: 1px solid #ccc;">Dairy milk aggregation & chilling</td></tr>
+        <tr><td>Chepalungu Dairy Cooperative Society</td><td>Milk cooling</td></tr>
+        <tr><td>Siongiroi & Longisa Dairy Cooperatives</td><td>Dairy</td></tr>
+        <tr><td>Kapsimotwo Farmers’ Cooperative Society</td><td>Dairy</td></tr>
+        <tr><td>Berur Horticultural Farmers Cooperative Society</td><td>Avocado/horticulture</td></tr>
+        <tr><td>Masare Farmers’ Cooperative</td><td>Coffee production/pulping</td></tr>
+        <tr><td>Kenya Midland Sacco Society Ltd</td><td>General deposit‑taking SACCO</td></tr>
+        <tr><td>Chepsol Tea Growers Sacco Ltd</td><td>Tea growers</td></tr>
+        <tr><td>Konoin Tea Growers Sacco Society</td><td>Tea growers</td></tr>
+        <tr><td>Mwongoori Farmers Cooperative Society</td><td>General crops</td></tr>
+        <tr><td>Bomet Dairy Services Coop</td><td>Dairy services</td></tr>
+        <tr><td>Sotico & Sot Tea Growers SACCOs</td><td>Tea</td></tr>
+        <tr><td>Gelegele Farmers Cooperative</td><td>General crops</td></tr>
+        <tr><td>Zinduka & Apex Sacco Society Ltds</td><td>Deposit‑taking SACCOs (2025)</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+    <div class="slideshow">
+      <img src="assets/images/farmers.jpg" alt="Farmers at work" />
+      <img src="assets/images/tractor.jpg" alt="Tractor in Highlands" />
+      <img src="assets/images/cow.jpg" alt="Dairy Cow" />
+    </div>
+
+    <img src="assets/images/tractor2.jpg" alt="Blue New Holland Tractor" class="dashboard-img" />
+    <img src="assets/images/cow2.jpg" alt="Black and White Dairy Cow" class="dashboard-img" />
+    <img src="assets/images/tractor.jpg" alt="Tractor ploughing" class="dashboard-img" />
+    <img src="assets/images/cow.jpg" alt="Dairy cow" class="dashboard-img" />
+
+    <section id="farmers-list" style="display: none;">
+      <h3 style="color: purple;">Registered Farmers</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Password</th>
+          </tr>
+        </thead>
+        <tbody id="farmerTableBody">
+          <!-- JS will inject farmer rows -->
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Kilimo House Bomet. All rights reserved.</p>
+  </footer>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => {
+          console.log("Service Worker registered");
+          reg.onupdatefound = () => {
+            const newWorker = reg.installing;
+            newWorker.onstatechange = () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                console.log("New version found, reloading...");
+                window.location.reload();
+              }
+            };
+          };
+        })
+        .catch(err => console.error("Service Worker failed", err));
+    }
+  </script>
+
+  <!-- Load Updated JS -->
+  <script src="assets/js/script.js?v=6"></script>
+
+</body>
+</html>

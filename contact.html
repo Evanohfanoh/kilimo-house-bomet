@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2d7c3d">
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => {
+        console.log("Service Worker registered");
+
+        // Listen for updates
+        reg.onupdatefound = () => {
+          const newWorker = reg.installing;
+          newWorker.onstatechange = () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available - reload page
+              console.log("New version found, reloading...");
+              window.location.reload();
+            }
+          };
+        };
+      })
+      .catch(err => console.error("Service Worker failed", err));
+  }
+</script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us – Kilimo House Bomet</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body>
+  <header>
+    <img src="assets/images/logo.png" alt="Kilimo House Logo" class="logo" />
+    <h1>Kilimo House Bomet</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="programs.html">Programs</a></li>
+        <li><a href="cooperatives.html">Cooperatives</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Contact Kilimo House Bomet</h2>
+      <p>We’d love to hear from you! Whether you have questions, suggestions, or want to partner with us, please reach out through any of the following methods.</p>
+    </section>
+
+    <section class="contact-info">
+      <h3>Our Contact Details</h3>
+      <ul>
+        <li><strong>Address:</strong> Kilimo House, Bomet County, Kenya</li>
+        <li><strong>Phone:</strong> +254 700 123 456</li>
+        <li><strong>Email:</strong> info@kilimohousebomet.go.ke</li>
+        <li><strong>Office Hours:</strong> Mon - Fri, 8:00 AM - 4:00 PM</li>
+      </ul>
+    </section>
+
+    <section class="contact-form">
+      <h3>Send Us a Message</h3>
+      <form action="#" method="post">
+        <label for="name">Name:</label><br />
+        <input type="text" id="name" name="name" placeholder="Your full name" required /><br />
+
+        <label for="email">Email:</label><br />
+        <input type="email" id="email" name="email" placeholder="you@example.com" required /><br />
+
+        <label for="message">Message:</label><br />
+        <textarea id="message" name="message" rows="5" placeholder="Type your message here..." required></textarea><br />
+
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Kilimo House Bomet. All rights reserved.</p>
+  </footer>
+  <script src="assets/js/script.js?v=5"></script>
+
+</body>
+</html>

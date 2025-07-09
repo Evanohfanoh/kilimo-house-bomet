@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs – Kilimo House Bomet</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d7c3d" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <style>
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 30px auto;
+    }
+    form h2 {
+      margin-bottom: 15px;
+      color: #2e7d32;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #256628;
+    }
+    .services-section {
+      background-color: #eef9f0;
+      padding: 20px;
+      border-radius: 8px;
+      margin: 30px auto;
+      max-width: 700px;
+    }
+    .services-section h2 {
+      color: #2e7d32;
+    }
+    .services-section ul {
+      padding-left: 20px;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="assets/images/logo.png" alt="Kilimo House Logo" class="logo" />
+    <h1>Kilimo House Bomet</h1>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="programs.html" class="active">Programs</a></li>
+        <li><a href="cooperatives.html">Cooperatives</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro">
+      <h2>Program Registration</h2>
+      <p>Fill out the form below to register for an agricultural program under Kilimo House Bomet.</p>
+    </section>
+
+    <!-- ✅ Program Registration Form -->
+    <form id="programForm">
+      <h2>Register Now</h2>
+      <input type="text" id="name" name="name" placeholder="Your full name" required />
+      <input type="email" id="email" name="email" placeholder="Your email" required />
+
+      <select id="program" name="program" required>
+        <option value="">-- Select Program --</option>
+        <option>Dairy Farmer Support Program</option>
+        <option>Tea Grower Productivity Scheme</option>
+        <option>Youth Agritech Training</option>
+        <option>Horticulture Subsidy Program</option>
+        <option>Livestock Vaccination Outreach</option>
+        <option>Climate-Smart Farming Training</option>
+        <option>SACCO Financial Literacy Sessions</option>
+      </select>
+
+      <textarea id="notes" name="notes" placeholder="Any specific requests or comments (optional)" rows="4"></textarea>
+
+      <button type="submit">Submit Registration</button>
+    </form>
+
+    <p id="responseMessage" style="text-align: center; font-weight: bold;"></p>
+
+    <!-- ✅ Additional Services Section -->
+    <section class="services-section">
+      <h2>Additional Support & Oversight Activities</h2>
+      <ul>
+        <li>Audits of cooperatives</li>
+        <li>Training for board of directors and staff (e.g., bookkeeping)</li>
+        <li>Promotion and registration of new cooperatives</li>
+        <li>Inspection of fraudulent cooperatives</li>
+        <li>Presiding over cooperative elections</li>
+        <li>Facilitating approval of cooperative borrowing</li>
+        <li>Grant disbursement and cooperative funding</li>
+        <li>Market linkages and value chain development</li>
+        <li>Livestock field support under Agriculture</li>
+        <li>AI (Artificial Insemination) services for livestock</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Kilimo House Bomet. All rights reserved.</p>
+  </footer>
+
+  <!-- ✅ JS to submit form to backend -->
+  <script>
+    document.getElementById("programForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const program = document.getElementById("program").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      try {
+        const res = await fetch("http://localhost:3000/register-program", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, program, notes })
+        });
+
+        const result = await res.json();
+        const msg = document.getElementById("responseMessage");
+        msg.textContent = result.message;
+        msg.style.color = result.success ? "green" : "red";
+
+        if (result.success) {
+          document.getElementById("programForm").reset();
+        }
+      } catch (err) {
+        alert("❌ Server error during submission.");
+      }
+    });
+  </script>
+  <script src="assets/js/script.js?v=6"></script>
+</body>
+</html>
