@@ -6,7 +6,7 @@ if (registerForm) {
     const email = document.getElementById("registerEmail").value;
     const password = document.getElementById("registerPassword").value;
 
-    fetch("http://localhost:3000/register", {
+    fetch("https://kilimo-house-api.up.railway.app/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -35,7 +35,7 @@ if (loginForm) {
     const identifier = document.getElementById("loginIdentifier").value.trim();
     const password = document.getElementById("loginPassword").value;
 
-    fetch("http://localhost:3000/login", {
+    fetch("https://kilimo-house-api.up.railway.app/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -57,9 +57,6 @@ if (loginForm) {
   });
 }
 
-
-
-
 // LOGOUT
 function logout() {
   localStorage.removeItem("email");
@@ -76,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const farmerSection = document.getElementById("farmers-list");
     if (loggedInUser === adminEmail && farmerSection) {
       farmerSection.style.display = "block";
-      fetch("http://localhost:3000/farmers")
+      fetch("https://kilimo-house-api.up.railway.app/farmers")
         .then(res => res.json())
         .then(users => {
           const tbody = document.getElementById("farmerTableBody");
@@ -86,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
             row.innerHTML = `
               <td>${index + 1}</td>
               <td>${user.email}</td>
-              <td>${user.phone || '-'}</td
+              <td>${user.phone || '-'}</td>
               <td>••••••</td>
             `;
             tbody.appendChild(row);
@@ -104,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tableBody = document.getElementById("submittedProgramsTableBody");
       section.style.display = "block";
 
-      fetch("http://localhost:3000/all-programs")
+      fetch("https://kilimo-house-api.up.railway.app/all-programs")
         .then(res => res.json())
         .then(data => {
           tableBody.innerHTML = "";
@@ -138,7 +135,7 @@ if (programForm) {
       notes: document.getElementById("notes").value.trim()
     };
 
-    const res = await fetch("http://localhost:3000/register-program", {
+    const res = await fetch("https://kilimo-house-api.up.railway.app/register-program", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData)
@@ -154,4 +151,3 @@ if (programForm) {
     }
   });
 }
-
