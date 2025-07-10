@@ -1,4 +1,4 @@
-// REGISTER
+// === REGISTER ===
 const registerForm = document.getElementById("registerForm");
 if (registerForm) {
   registerForm.addEventListener("submit", function (e) {
@@ -13,21 +13,21 @@ if (registerForm) {
       },
       body: JSON.stringify({ email, password })
     })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message);
-      if (data.success) {
-        window.location.href = "login.html";
-      }
-    })
-    .catch(err => {
-      console.error("Registration failed", err);
-      alert("Registration failed.");
-    });
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.success) {
+          window.location.href = "login.html";
+        }
+      })
+      .catch(err => {
+        console.error("Registration failed", err);
+        alert("Registration failed.");
+      });
   });
 }
 
-// LOGIN
+// === LOGIN ===
 const loginForm = document.getElementById("loginForm");
 if (loginForm) {
   loginForm.addEventListener("submit", function (e) {
@@ -40,30 +40,30 @@ if (loginForm) {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ identifier, password }) // sending combined field
+      body: JSON.stringify({ identifier, password })
     })
-    .then(res => res.json())
-    .then(data => {
-      alert(data.message);
-      if (data.success) {
-        localStorage.setItem("email", data.email || identifier);
-        window.location.href = "dashboard.html";
-      }
-    })
-    .catch(err => {
-      console.error("Login failed", err);
-      alert("Login failed.");
-    });
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.success) {
+          localStorage.setItem("email", data.email || identifier);
+          window.location.href = "dashboard.html";
+        }
+      })
+      .catch(err => {
+        console.error("Login failed", err);
+        alert("Login failed.");
+      });
   });
 }
 
-// LOGOUT
+// === LOGOUT ===
 function logout() {
   localStorage.removeItem("email");
   window.location.href = "login.html";
 }
 
-// DASHBOARD + PROGRAMS VIEW
+// === DASHBOARD + PROGRAMS VIEW ===
 document.addEventListener("DOMContentLoaded", () => {
   const loggedInUser = localStorage.getItem("email");
   const adminEmail = "admin@kilimohouse.go.ke";
@@ -94,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // === Programs Submission (admin only) ===
+  // === Programs View (Admin) ===
   if (window.location.pathname.includes("programs.html")) {
     if (loggedInUser === adminEmail) {
       const section = document.getElementById("submittedProgramsSection");
