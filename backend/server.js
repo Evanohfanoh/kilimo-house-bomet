@@ -1,93 +1,112 @@
 const express = require("express");
-const fs = require("fs");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const fs = require("fs");
 const path = require("path");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 
-// Enable CORS for your GitHub Pages site
-app.use(cors({
-  origin: "https://evanohfanoh.github.io",
-  methods: ["GET", "POST"],
-  credentials: false
-}));
+// ✅ Enable CORS for all origins (especially GitHub Pages)
+app.use(cors());
 
+// ✅ Parse JSON request bodies
 app.use(bodyParser.json());
 
-const usersFile = path.join(__dirname, "users.json");
-const programsFile = path.join(__dirname, "programs.json");
-
-// Helper to read JSON from a file
-function readJSON(filePath) {
-  if (!fs.existsSync(filePath)) return [];
-  const content = fs.readFileSync(filePath, "utf8");
-  return content ? JSON.parse(content) : [];
-}
-
-// Helper to write JSON to a file
-function writeJSON(filePath, data) {
-  fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
-}
-
-// === REGISTER ===
+// ✅ Register route
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
-  const users = readJSON(usersFile);
 
-  if (users.find(u => u.email === email)) {
-    return res.status(400).json({ success: false, message: "Email already registered" });
+  if (!email || !password) {
+    return res.status(400).json({ success: false, message: "Email and password required" });
   }
 
-  users.push({ email, password });
-  writeJSON(usersFile, users);
+  const usersPath = path.join(__dirname, "users.json");
+  let users = [];
+
+  if (fs.existsSync(usersPath)) {
+    users = JSON.parse(fs.readFileSync(usersPath));
+  }
+
+  const alreadyExists = users.find(user => user.email === email);
+  if (alreadyExists) {
+    return res.status(409).json({ success: false, message: "User already exists" });
+  }
+
+  users.push({ id: uuidv4(), email, password });
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+
   res.json({ success: true, message: "Registration successful" });
 });
 
-// === LOGIN ===
+// ✅ Login route
 app.post("/login", (req, res) => {
   const { identifier, password } = req.body;
-  const users = readJSON(usersFile);
 
-  const user = users.find(u => u.email === identifier && u.password === password);
-  if (!user) {
+  if (!identifier || !password) {
+    return res.status(400).json({ success: false, message: "Email and password required" });
+  }
+
+  const usersPath = path.join(__dirname, "users.json");
+  if (!fs.existsSync(usersPath)) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
   }
 
-  res.json({ success: true, message: "Login successful", email: user.email });
+  const users = JSON.parse(fs.readFileSync(usersPath));
+  const user = users.find(u => u.email === identifier && u.password === password);
+
+  if (user) {
+    res.json({ success: true, message: "Login successful", email: user.email });
+  } else {
+    res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
 });
 
-// === VIEW ALL USERS (Admin only) ===
+// ✅ Get all farmers (admin only)
 app.get("/farmers", (req, res) => {
-  const users = readJSON(usersFile);
+  const usersPath = path.join(__dirname, "users.json");
+  if (!fs.existsSync(usersPath)) {
+    return res.json([]);
+  }
+
+  const users = JSON.parse(fs.readFileSync(usersPath));
   res.json(users);
 });
 
-// === PROGRAM REGISTRATION ===
+// ✅ Register program
 app.post("/register-program", (req, res) => {
   const { name, email, program, notes } = req.body;
-  const programs = readJSON(programsFile);
 
-  programs.push({
-    name,
-    email,
-    program,
-    notes,
-    registeredAt: new Date().toISOString()
-  });
+  if (!name || !email || !program) {
+    return res.status(400).json({ success: false, message: "All fields are required" });
+  }
 
-  writeJSON(programsFile, programs);
-  res.json({ success: true, message: "Program registered successfully" });
+  const programsPath = path.join(__dirname, "programs.json");
+  let programs = [];
+
+  if (fs.existsSync(programsPath)) {
+    programs = JSON.parse(fs.readFileSync(programsPath));
+  }
+
+  programs.push({ name, email, program, notes, registeredAt: new Date().toISOString() });
+  fs.writeFileSync(programsPath, JSON.stringify(programs, null, 2));
+
+  res.json({ success: true, message: "Program registration submitted successfully" });
 });
 
-// === GET ALL PROGRAMS ===
+// ✅ Get all program registrations (admin only)
 app.get("/all-programs", (req, res) => {
-  const programs = readJSON(programsFile);
+  const programsPath = path.join(__dirname, "programs.json");
+  if (!fs.existsSync(programsPath)) {
+    return res.json([]);
+  }
+
+  const programs = JSON.parse(fs.readFileSync(programsPath));
   res.json(programs);
 });
 
-// === Server Listening ===
+// ✅ Start the server
 app.listen(PORT, () => {
-  console.log(Server running on port ${PORT});
+  console.log(Server running on http://localhost:${PORT});
 });
