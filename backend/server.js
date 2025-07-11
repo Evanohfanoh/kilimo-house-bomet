@@ -8,14 +8,24 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Enable CORS for GitHub Pages origin
+// ✅ Allow both GitHub Pages and Localhost (Live Server)
+const allowedOrigins = [
+  "https://evanohfanoh.github.io",
+  "http://127.0.0.1:5500"
+];
+
 app.use(cors({
-  origin: 'https://evanohfanoh.github.io',
-  methods: ['GET', 'POST', 'OPTIONS'],
-  allowedHeaders: ['Content-Type']
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
 }));
 
-// ✅ Parse JSON request bodies
 app.use(bodyParser.json());
 
 // ✅ Register route
@@ -112,5 +122,5 @@ app.get("/all-programs", (req, res) => {
 
 // ✅ Start the server
 app.listen(PORT, () => {
-  console.log(Server running on http://localhost:${PORT});
+  console.log(✅ Server running on http://localhost:${PORT});
 });
