@@ -8,17 +8,17 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Enable CORS for ALL origins explicitly
+// ✅ Enable CORS for GitHub Pages origin
 app.use(cors({
-  origin: '*',
+  origin: 'https://evanohfanoh.github.io',
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type']
 }));
 
-// ✅ Parse JSON bodies
+// ✅ Parse JSON request bodies
 app.use(bodyParser.json());
 
-// === REGISTER ROUTE ===
+// ✅ Register route
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
@@ -27,38 +27,58 @@ app.post("/register", (req, res) => {
   }
 
   const usersPath = path.join(__dirname, "users.json");
-  let users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
+  let users = [];
 
-  if (users.find(u => u.email === email)) {
+  if (fs.existsSync(usersPath)) {
+    users = JSON.parse(fs.readFileSync(usersPath));
+  }
+
+  const alreadyExists = users.find(user => user.email === email);
+  if (alreadyExists) {
     return res.status(409).json({ success: false, message: "User already exists" });
   }
 
   users.push({ id: uuidv4(), email, password });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
+
   res.json({ success: true, message: "Registration successful" });
 });
 
-// === LOGIN ROUTE ===
+// ✅ Login route
 app.post("/login", (req, res) => {
   const { identifier, password } = req.body;
 
+  if (!identifier || !password) {
+    return res.status(400).json({ success: false, message: "Email and password required" });
+  }
+
   const usersPath = path.join(__dirname, "users.json");
-  const users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
+  if (!fs.existsSync(usersPath)) {
+    return res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
 
+  const users = JSON.parse(fs.readFileSync(usersPath));
   const user = users.find(u => u.email === identifier && u.password === password);
-  if (!user) return res.status(401).json({ success: false, message: "Invalid credentials" });
 
-  res.json({ success: true, message: "Login successful", email: user.email });
+  if (user) {
+    res.json({ success: true, message: "Login successful", email: user.email });
+  } else {
+    res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
 });
 
-// === GET FARMERS ===
+// ✅ Get all farmers (admin only)
 app.get("/farmers", (req, res) => {
   const usersPath = path.join(__dirname, "users.json");
-  const users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
+  if (!fs.existsSync(usersPath)) {
+    return res.json([]);
+  }
+
+  const users = JSON.parse(fs.readFileSync(usersPath));
   res.json(users);
 });
 
-// === PROGRAM REGISTRATION ===
+// ✅ Register program
 app.post("/register-program", (req, res) => {
   const { name, email, program, notes } = req.body;
 
@@ -67,7 +87,11 @@ app.post("/register-program", (req, res) => {
   }
 
   const programsPath = path.join(__dirname, "programs.json");
-  const programs = fs.existsSync(programsPath) ? JSON.parse(fs.readFileSync(programsPath)) : [];
+  let programs = [];
+
+  if (fs.existsSync(programsPath)) {
+    programs = JSON.parse(fs.readFileSync(programsPath));
+  }
 
   programs.push({ name, email, program, notes, registeredAt: new Date().toISOString() });
   fs.writeFileSync(programsPath, JSON.stringify(programs, null, 2));
@@ -75,14 +99,18 @@ app.post("/register-program", (req, res) => {
   res.json({ success: true, message: "Program registration submitted successfully" });
 });
 
-// === GET ALL PROGRAMS ===
+// ✅ Get all program registrations (admin only)
 app.get("/all-programs", (req, res) => {
   const programsPath = path.join(__dirname, "programs.json");
-  const programs = fs.existsSync(programsPath) ? JSON.parse(fs.readFileSync(programsPath)) : [];
+  if (!fs.existsSync(programsPath)) {
+    return res.json([]);
+  }
+
+  const programs = JSON.parse(fs.readFileSync(programsPath));
   res.json(programs);
 });
 
-// === START SERVER ===
+// ✅ Start the server
 app.listen(PORT, () => {
-  console.log(✅ Server running at http://localhost:${PORT});
+  console.log(Server running on http://localhost:${PORT});
 });
