@@ -8,17 +8,17 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Enable CORS for all origins (including GitHub Pages)
+// ✅ Enable CORS for ALL origins explicitly
 app.use(cors({
-  origin: "*",
-  methods: ["GET", "POST", "OPTIONS"],
-  allowedHeaders: ["Content-Type"]
+  origin: '*',
+  methods: ['GET', 'POST', 'OPTIONS'],
+  allowedHeaders: ['Content-Type']
 }));
 
-// ✅ Parse JSON request bodies
+// ✅ Parse JSON bodies
 app.use(bodyParser.json());
 
-// ✅ Register route
+// === REGISTER ROUTE ===
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
@@ -27,58 +27,38 @@ app.post("/register", (req, res) => {
   }
 
   const usersPath = path.join(__dirname, "users.json");
-  let users = [];
+  let users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
 
-  if (fs.existsSync(usersPath)) {
-    users = JSON.parse(fs.readFileSync(usersPath));
-  }
-
-  const alreadyExists = users.find(user => user.email === email);
-  if (alreadyExists) {
+  if (users.find(u => u.email === email)) {
     return res.status(409).json({ success: false, message: "User already exists" });
   }
 
   users.push({ id: uuidv4(), email, password });
   fs.writeFileSync(usersPath, JSON.stringify(users, null, 2));
-
   res.json({ success: true, message: "Registration successful" });
 });
 
-// ✅ Login route
+// === LOGIN ROUTE ===
 app.post("/login", (req, res) => {
   const { identifier, password } = req.body;
 
-  if (!identifier || !password) {
-    return res.status(400).json({ success: false, message: "Email and password required" });
-  }
-
   const usersPath = path.join(__dirname, "users.json");
-  if (!fs.existsSync(usersPath)) {
-    return res.status(401).json({ success: false, message: "Invalid credentials" });
-  }
+  const users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
 
-  const users = JSON.parse(fs.readFileSync(usersPath));
   const user = users.find(u => u.email === identifier && u.password === password);
+  if (!user) return res.status(401).json({ success: false, message: "Invalid credentials" });
 
-  if (user) {
-    res.json({ success: true, message: "Login successful", email: user.email });
-  } else {
-    res.status(401).json({ success: false, message: "Invalid credentials" });
-  }
+  res.json({ success: true, message: "Login successful", email: user.email });
 });
 
-// ✅ Get all farmers (admin only)
+// === GET FARMERS ===
 app.get("/farmers", (req, res) => {
   const usersPath = path.join(__dirname, "users.json");
-  if (!fs.existsSync(usersPath)) {
-    return res.json([]);
-  }
-
-  const users = JSON.parse(fs.readFileSync(usersPath));
+  const users = fs.existsSync(usersPath) ? JSON.parse(fs.readFileSync(usersPath)) : [];
   res.json(users);
 });
 
-// ✅ Register program
+// === PROGRAM REGISTRATION ===
 app.post("/register-program", (req, res) => {
   const { name, email, program, notes } = req.body;
 
@@ -87,11 +67,7 @@ app.post("/register-program", (req, res) => {
   }
 
   const programsPath = path.join(__dirname, "programs.json");
-  let programs = [];
-
-  if (fs.existsSync(programsPath)) {
-    programs = JSON.parse(fs.readFileSync(programsPath));
-  }
+  const programs = fs.existsSync(programsPath) ? JSON.parse(fs.readFileSync(programsPath)) : [];
 
   programs.push({ name, email, program, notes, registeredAt: new Date().toISOString() });
   fs.writeFileSync(programsPath, JSON.stringify(programs, null, 2));
@@ -99,18 +75,14 @@ app.post("/register-program", (req, res) => {
   res.json({ success: true, message: "Program registration submitted successfully" });
 });
 
-// ✅ Get all program registrations (admin only)
+// === GET ALL PROGRAMS ===
 app.get("/all-programs", (req, res) => {
   const programsPath = path.join(__dirname, "programs.json");
-  if (!fs.existsSync(programsPath)) {
-    return res.json([]);
-  }
-
-  const programs = JSON.parse(fs.readFileSync(programsPath));
+  const programs = fs.existsSync(programsPath) ? JSON.parse(fs.readFileSync(programsPath)) : [];
   res.json(programs);
 });
 
-// ✅ Start the server
+// === START SERVER ===
 app.listen(PORT, () => {
-  console.log(Server running on http://localhost:${PORT});
+  console.log(✅ Server running at http://localhost:${PORT});
 });
