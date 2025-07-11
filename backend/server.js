@@ -8,13 +8,17 @@ const { v4: uuidv4 } = require("uuid");
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// ✅ Enable CORS for all origins (GitHub Pages needs this)
-app.use(cors());
+// ✅ Enable CORS for all origins (including GitHub Pages)
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type"]
+}));
 
-// ✅ Middleware
+// ✅ Parse JSON request bodies
 app.use(bodyParser.json());
 
-// ✅ Registration route
+// ✅ Register route
 app.post("/register", (req, res) => {
   const { email, password } = req.body;
 
@@ -63,7 +67,7 @@ app.post("/login", (req, res) => {
   }
 });
 
-// ✅ Get all farmers (admin-only feature)
+// ✅ Get all farmers (admin only)
 app.get("/farmers", (req, res) => {
   const usersPath = path.join(__dirname, "users.json");
   if (!fs.existsSync(usersPath)) {
@@ -74,7 +78,7 @@ app.get("/farmers", (req, res) => {
   res.json(users);
 });
 
-// ✅ Register for a program
+// ✅ Register program
 app.post("/register-program", (req, res) => {
   const { name, email, program, notes } = req.body;
 
@@ -95,7 +99,7 @@ app.post("/register-program", (req, res) => {
   res.json({ success: true, message: "Program registration submitted successfully" });
 });
 
-// ✅ Get all submitted programs
+// ✅ Get all program registrations (admin only)
 app.get("/all-programs", (req, res) => {
   const programsPath = path.join(__dirname, "programs.json");
   if (!fs.existsSync(programsPath)) {
